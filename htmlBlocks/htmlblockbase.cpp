@@ -7,7 +7,8 @@ STRING_T        emptyString = "";
 
 htmlBlockTagBase::htmlBlockTagBase(STRING_T sTag, STRING_T sId, STRING_T sClass,
                                    STRING_T sStyle)
-:   m_sTag(sTag)
+:   m_bAddCr(false),
+    m_sTag(sTag)
 {
     //ctor
     m_attr.m_sId    = sId;
@@ -46,12 +47,18 @@ STRING_T htmlBlockTagBase::HTML() {
     }
     sHTML += ">";
 
+    if (m_bAddCr)
+        sHTML += "\n";
+
     for (cIter = m_vChildren.begin() ; cIter != m_vChildren.end() ; cIter++)
     {
         sHTML += (*cIter)->HTML();
     }
 
     sHTML += "</" + m_sTag + ">";
+
+    if (m_bAddCr)
+        sHTML += "\n";
 
     return sHTML;
 }
@@ -129,4 +136,67 @@ htmlBlockH1::htmlBlockH1(STRING_T sId, STRING_T sClass, STRING_T sStyle)
 htmlBlockH1::~htmlBlockH1()
 {
 
+}
+/*----------------------------------------------------------------------------*/
+
+htmlBlockHEAD::htmlBlockHEAD()
+:   htmlBlockTagBase( "HEAD" )
+{
+    m_bAddCr = true;
+}
+
+htmlBlockHEAD::~htmlBlockHEAD()
+{
+
+}
+
+/*----------------------------------------------------------------------------*/
+
+htmlBlockBODY::htmlBlockBODY()
+:   htmlBlockTagBase( "BODY" )
+{
+    m_bAddCr = true;
+}
+
+htmlBlockBODY::~htmlBlockBODY()
+{
+
+}
+
+
+/*----------------------------------------------------------------------------*/
+
+htmlBlockHTML::htmlBlockHTML()
+:   htmlBlockTagBase( "HTML" ),
+    m_pHead(0L),
+    m_pBody(0L)
+{
+    m_pHead = new htmlBlockHEAD();
+    AddChild( m_pHead );
+    m_pBody = new htmlBlockBODY();
+    AddChild( m_pBody );
+    m_bAddCr = true;
+}
+
+htmlBlockHTML::~htmlBlockHTML()
+{
+    // dtor
+}
+
+void htmlBlockHTML::AddToHead(htmlBlockTagBase* pContent)
+{
+    m_pHead->AddChild( pContent );
+}
+
+void htmlBlockHTML::AddToBody(htmlBlockTagBase* pContent)
+{
+    m_pBody->AddChild( pContent );
+}
+
+htmlBlockTagBase*       htmlBlockHTML::Head() {
+    return m_pHead;
+}
+
+htmlBlockTagBase*       htmlBlockHTML::Body() {
+    return m_pBody;
 }

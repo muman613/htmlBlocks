@@ -76,3 +76,19 @@ htmlBlockP* htmlBlockFactory::P(htmlBlockBase* pContent,
                                           STRING_T sStyle = emptyString);
 */
 
+htmlBlockH1* htmlBlockFactory::H1(STRING_T sContent,
+                                STRING_T sId,
+                                STRING_T sClass,
+                                STRING_T sStyle)
+{
+    htmlBlockH1*         pNewH1       = 0L;
+//    htmlBlockText*      pNewText    = 0L;
+
+    pNewH1 = new htmlBlockH1( sId, sClass, sStyle );
+    assert( pNewH1 != 0L );
+
+    if (pNewH1)
+        pNewH1->AddText( sContent );
+
+    return pNewH1;
+}

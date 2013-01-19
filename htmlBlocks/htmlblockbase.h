@@ -43,6 +43,7 @@ class htmlBlockBase
 class htmlBlockTagBase : public htmlBlockBase
 {
     public:
+        htmlBlockTagBase() {};
         htmlBlockTagBase(STRING_T sTag,
                       STRING_T sId    = emptyString,
                       STRING_T sClass = emptyString,
@@ -60,6 +61,8 @@ class htmlBlockTagBase : public htmlBlockBase
         void                AddCRLF();
 
     protected:
+        bool                m_bAddCr;
+
     private:
 
         STRING_T            m_sTag;
@@ -101,5 +104,35 @@ class htmlBlockH1 : public htmlBlockTagBase {
         virtual ~htmlBlockH1();
 };
 
+class htmlBlockHEAD : public htmlBlockTagBase {
+public:
+    htmlBlockHEAD();
+    virtual ~htmlBlockHEAD();
+};
 
+class htmlBlockBODY : public htmlBlockTagBase {
+public:
+    htmlBlockBODY();
+    virtual ~htmlBlockBODY();
+};
+
+/**
+ *
+ */
+
+class htmlBlockHTML: public htmlBlockTagBase {
+public:
+    htmlBlockHTML();
+    virtual ~htmlBlockHTML();
+
+    void AddToHead(htmlBlockTagBase* pBlock);
+    void AddToBody(htmlBlockTagBase* pBlock);
+
+    htmlBlockTagBase*       Head();
+    htmlBlockTagBase*       Body();
+
+private:
+    htmlBlockTagBase*       m_pHead;
+    htmlBlockTagBase*       m_pBody;
+};
 #endif // HTMLBLOCKBASE_H
