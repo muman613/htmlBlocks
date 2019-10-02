@@ -26,11 +26,16 @@ int main()
 
     pHTML = new htmlBlockHTML();
 
+    pHTML->Head()->AddTitle("Sample HTML");
     pHTML->AddToBody( htmlBlockFactory::H1("Heading #1") );
     pHTML->Body()->AddCRLF();
-    pHTML->AddToBody( htmlBlockFactory::P("This is the text") );
+    pHTML->AddToBody( htmlBlockFactory::P("This is an example paragraph. "
+                                          "It can contain a whole lot of text if you want it to. "
+                                          "But it can also contain a little text.") );
     pHTML->Body()->AddCRLF();
-
+    pHTML->AddToBody(htmlBlockFactory::H2("Heading #2"));
+    pHTML->Body()->AddCRLF();
+    pHTML->Body()->AddText("No shiff");
     STRING_T sHTML = pHTML->HTML();
 
     printf("%s\n", sHTML.c_str());

@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <assert.h>
 #include "htmlblockfactory.h"
 
@@ -15,7 +14,7 @@ htmlBlockFactory::~htmlBlockFactory()
 
 htmlBlockText* htmlBlockFactory::Text(STRING_T sContent)
 {
-    htmlBlockText*      pNewText = 0L;
+    htmlBlockText*      pNewText = nullptr;
 
     pNewText = new htmlBlockText( sContent );
 
@@ -27,11 +26,11 @@ htmlBlockP* htmlBlockFactory::P(STRING_T sContent,
                                 STRING_T sClass,
                                 STRING_T sStyle)
 {
-    htmlBlockP*         pNewP       = 0L;
-//    htmlBlockText*      pNewText    = 0L;
+    htmlBlockP*         pNewP       = nullptr;
+//    htmlBlockText*      pNewText    = nullptr;
 
     pNewP = new htmlBlockP( sId, sClass, sStyle );
-    assert( pNewP != 0L );
+    assert( pNewP != nullptr );
 
     if (pNewP)
         pNewP->AddText( sContent );
@@ -42,10 +41,10 @@ htmlBlockP* htmlBlockFactory::P(STRING_T sContent,
 htmlBlockP* htmlBlockFactory::P(STRING_T sContent,
                                 tagAttributes& attr)
 {
-    htmlBlockP*         pNewP       = 0L;
+    htmlBlockP*         pNewP       = nullptr;
 
     pNewP = new htmlBlockP( attr.m_sId, attr.m_sClass, attr.m_sStyle );
-    assert( pNewP != 0L );
+    assert( pNewP != nullptr );
     if (pNewP) {
         pNewP->AddText( sContent );
     }
@@ -58,7 +57,7 @@ htmlBlockP* htmlBlockFactory::P(htmlBlockBase* pContent,
                                 STRING_T sClass,
                                 STRING_T sStyle)
 {
-    htmlBlockP*         pNewP       = 0L;
+    htmlBlockP*         pNewP       = nullptr;
 
     pNewP = new htmlBlockP( sId, sClass, sStyle );
 
@@ -81,14 +80,23 @@ htmlBlockH1* htmlBlockFactory::H1(STRING_T sContent,
                                 STRING_T sClass,
                                 STRING_T sStyle)
 {
-    htmlBlockH1*         pNewH1       = 0L;
-//    htmlBlockText*      pNewText    = 0L;
+    htmlBlockH1*         pNewH1       = nullptr;
 
     pNewH1 = new htmlBlockH1( sId, sClass, sStyle );
-    assert( pNewH1 != 0L );
-
-    if (pNewH1)
-        pNewH1->AddText( sContent );
+    pNewH1->AddText( sContent );
 
     return pNewH1;
+}
+
+htmlBlockH2* htmlBlockFactory::H2(STRING_T sContent,
+                                  STRING_T sId,
+                                  STRING_T sClass,
+                                  STRING_T sStyle)
+{
+    htmlBlockH2*         pNewH2       = nullptr;
+
+    pNewH2 = new htmlBlockH2( sId, sClass, sStyle );
+    pNewH2->AddText( sContent );
+
+    return pNewH2;
 }

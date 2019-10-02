@@ -25,8 +25,12 @@ class htmlBlockFactory
                                            STRING_T sId    = emptyString,
                                            STRING_T sClass = emptyString,
                                            STRING_T sStyle = emptyString);
-    protected:
-    private:
+        static htmlBlockH2*             H2(STRING_T sContent,
+                                           STRING_T sId    = emptyString,
+                                           STRING_T sClass = emptyString,
+                                           STRING_T sStyle = emptyString);
+protected:
+private:
 };
 
 #endif // HTMLBLOCKFACTORY_H

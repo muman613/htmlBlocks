@@ -1,9 +1,8 @@
-#include <stdio.h>
-#include <assert.h>
+#include <cassert>
 #include "htmlblockbase.h"
 
 
-STRING_T        emptyString = "";
+STRING_T        emptyString;
 
 htmlBlockTagBase::htmlBlockTagBase(STRING_T sTag, STRING_T sId, STRING_T sClass,
                                    STRING_T sStyle)
@@ -76,13 +75,10 @@ void htmlBlockTagBase::AddChild(htmlBlockBase* pNewBlock)
 
 void htmlBlockTagBase::AddText(STRING_T sText)
 {
-    htmlBlockText*      pNewText = 0L;
+    htmlBlockText*      pNewText = nullptr;
 
     pNewText = new htmlBlockText( sText );
-    assert(pNewText != 0L);
-    if (pNewText) {
-        AddChild( pNewText );
-    }
+    AddChild( pNewText );
 }
 
 void htmlBlockTagBase::AddCRLF() {
@@ -137,6 +133,20 @@ htmlBlockH1::~htmlBlockH1()
 {
 
 }
+
+/*----------------------------------------------------------------------------*/
+
+htmlBlockH2::htmlBlockH2(STRING_T sId, STRING_T sClass, STRING_T sStyle)
+    :   htmlBlockTagBase( "H2", sId, sClass, sStyle)
+{
+
+}
+
+htmlBlockH2::~htmlBlockH2()
+{
+
+}
+
 /*----------------------------------------------------------------------------*/
 
 htmlBlockHEAD::htmlBlockHEAD()
@@ -147,6 +157,25 @@ htmlBlockHEAD::htmlBlockHEAD()
 
 htmlBlockHEAD::~htmlBlockHEAD()
 {
+
+}
+
+void htmlBlockHEAD::AddTitle(STRING_T sTitle) {
+    htmlBlockTITLE * newTitle = new htmlBlockTITLE(sTitle);
+
+    AddChild(newTitle);
+}
+
+/*----------------------------------------------------------------------------*/
+
+htmlBlockTITLE::htmlBlockTITLE(STRING_T sTitle)
+:   htmlBlockTagBase("TITLE"),
+    m_sTitle(sTitle)
+{
+    AddText(sTitle);
+}
+
+htmlBlockTITLE::~htmlBlockTITLE() {
 
 }
 
@@ -193,10 +222,10 @@ void htmlBlockHTML::AddToBody(htmlBlockTagBase* pContent)
     m_pBody->AddChild( pContent );
 }
 
-htmlBlockTagBase*       htmlBlockHTML::Head() {
-    return m_pHead;
+htmlBlockHEAD*       htmlBlockHTML::Head() {
+    return static_cast<htmlBlockHEAD*>(m_pHead);
 }
 
-htmlBlockTagBase*       htmlBlockHTML::Body() {
-    return m_pBody;
+htmlBlockBODY*       htmlBlockHTML::Body() {
+    return static_cast<htmlBlockBODY*>(m_pBody);
 }
